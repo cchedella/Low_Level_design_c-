@@ -1,0 +1,800 @@
+#FactoryPattren
+
+
+#FactoryPattren PreRequist
+
+
+ #1.Interface
+
+	Public Interface IVehicle()
+	{
+	   string getType();
+	}
+ #2.Concreate Methods
+
+        Public Class Car():IVehicle
+	{
+          public string getType() {return "Car";}
+	}
+
+	Public Class Bike():IVehicle
+	{
+          public string getType() {return "Bike";}
+	}
+
+	Public Class Truck():IVehicle
+	{
+          public string getType() {return "Truck";}
+	}
+
+	Public Class Ship():IVehicle
+	{
+          public string getType() {return "Ship";}
+	}
+
+
+#3.Creating a Factory Class 									||  # Creating a Factory Class using Abstract
+ 												 |
+Public Class TransprtWay									 | 	public Abstract Class VehicleFactory
+{												 |	  {
+   												 |	    public abstract IVehicle createVehicle();
+  												 |	  }
+     public static IVehicle createVehicle(string Type)						 |
+     	{											 |   Public Class TruckFactory:VehicleFactory
+           return type.ToLower() switch 							 | {
+       		 {										 |    Public Override IVehicle createVehicle()
+       		     "land" => new Truck(),							 |    { return Truck(); }
+       		     "sea"  => new Ship(),							 | }
+      		      _      => throw new ArgumentException("Invalid Vehicle type")		 |
+      		  };										 |  Public Class ShipFactory : VehicleFactory
+												 |  {
+	}											 |    Public Override IVehicle createVehicle()
+												 |    { return Ship();  }
+}												 |  }
+												 |
+												 |  #4.Craeting the Obejct to call the methods in the Class
+#4.Creating the Objects for the Class   							 |
+												 |    VehicleFactory fac1=new TruckFactory();
+ //Creating the Land Vehicle using Factory Method						 |
+												 |    IVehicle V1=fac1.createVehicle();
+    IVehicle LandVehicle = TransprtWay.createVehicle("Land");					 |
+												 |    V1.getType();
+												 |
+//Creating the Sea Vehicle using Factory Method							 |
+												 |    VehicleFacory fac2= new shipFactory();
+    IVehicle SeaVehicle = TransprtWay.createVehicle("Sea");					 |
+												 |    IVehicle V2=new shipFactory();
+												 |
+//Calling the Method										 |    V2.getType();
+ 
+	
+	LandVehicle.getType();
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#SingletonPattren
+
+
+#creating the class as sealed to restrict inheritance and making it as private and static
+
+	Public Sealed class Singleton
+	{
+           private static Singleton _instance;
+	   private int _counter;
+
+		Private Singleton
+		{
+		}
+	
+	 public static Singleton Instance
+		{
+		  get{
+			if(_instance == null)
+			{
+			  _instance = new Singleton;
+			}
+				return _instance;
+		     }
+		}
+
+		public void IncrementCounter()
+		{  _counter++; }
+	}
+
+#creating the instance for the class
+
+  Singleton mySingleton = Singleton.Instance;
+
+	mySingleton.IncrementCounter();
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#BuilderPattren
+
+The Builder Design Pattern is a creational pattern used to construct complex objects step-by-step. It separates the representation of an object from its construction logic, allowing the same construction process to create different representations.
+
+using System;
+using System.Collections.Generic;
+
+// 1. The Target Product (The complex object we want to build)
+
+public class Computer
+{
+    public string CPU { get; }
+    public int RAM { get; }
+    public int Storage { get; }
+    public string GraphicsCard { get; } // Optional
+
+    // Constructor is internal/private so it can ONLY be built via the Builder
+
+    internal Computer(string cpu, int ram, int storage, string graphicsCard)
+    {
+        CPU = cpu;
+        RAM = ram;
+        Storage = storage;
+        GraphicsCard = graphicsCard;
+    }
+
+    public void DisplaySpecifications()
+    {
+        Console.WriteLine($"Computer Specs: CPU: {CPU}, RAM: {RAM}GB, Storage: {Storage}GB, GPU: {GraphicsCard ?? "Integrated"}");
+    }
+}
+
+// 2. The Builder Interface
+public interface IComputerBuilder
+{
+    IComputerBuilder SetCPU(string cpu);
+    IComputerBuilder SetRAM(int ramGb);
+    IComputerBuilder SetStorage(int storageGb);
+    IComputerBuilder SetGraphicsCard(string gpu);
+    Computer Build();
+}
+
+// 3. The Concrete Builder
+public class ComputerBuilder : IComputerBuilder
+{
+    private string _cpu;
+    private int _ram;
+    private int _storage;
+    private string _graphicsCard;
+
+    public IComputerBuilder SetCPU(string cpu)
+    {
+        _cpu = cpu;
+        return this; // Returns 'this' to enable method chaining
+    }
+
+    public IComputerBuilder SetRAM(int ramGb)
+    {
+        _ram = ramGb;
+        return this;
+    }
+
+    public IComputerBuilder SetStorage(int storageGb)
+    {
+        _storage = storageGb;
+        return this;
+    }
+
+    public IComputerBuilder SetGraphicsCard(string gpu)
+    {
+        _graphicsCard = gpu;
+        return this;
+    }
+
+    public Computer Build()
+    {
+        // Validation step before creation
+        if (string.IsNullOrEmpty(_cpu)) throw new InvalidOperationException("CPU is required.");
+        if (_ram <= 0) throw new InvalidOperationException("Invalid RAM configuration.");
+
+        return new Computer(_cpu, _ram, _storage, _graphicsCard);
+    }
+}
+
+// 4. Usage
+class Program
+{
+    static void Main()
+    {
+        // Constructing a high-end gaming PC step-by-step fluently
+
+        Computer gamingPc = new ComputerBuilder()
+            .SetCPU("Intel i9")
+            .SetRAM(32)
+            .SetStorage(2000)
+            .SetGraphicsCard("NVIDIA RTX 4090")
+            .Build();
+
+        gamingPc.DisplaySpecifications();
+    }
+}
+
+============================================================================================================================================================
+
+#PropertyPattren
+
+Prototype Design Pattern is a creational design pattern that allows you to create new objects by copying an existing instance (the prototype) instead of creating them from scratch. This pattern is highly beneficial when object creation is expensive (e.g., requires heavy database queries or complex configuration) or when you want to avoid a massive hierarchy of factory subclasses
+
+		Public Interface IShape
+		{
+			IShape Clone();
+		}
+#Class Rectangle shape
+
+		Public class Rectangle
+		{
+			Private int width;
+			Private int height;
+
+			public int getWidth()
+			{
+				return this.width;
+			}
+
+			public int getHeight()
+			{
+				return this.height;
+			}
+	
+			Public IShape Clone()
+			{
+				return new Rectangle(this.width,this.height);
+			}
+		}
+
+#Class Square Shape
+
+		Public class Square()
+		{
+			private int length;
+
+			public int getLength()
+			{
+				return this.length;
+			}
+	
+			Public IShape Clone()
+			{
+				return new Square(this.length);
+			}
+		}
+
+#Test class
+
+		Public class Test
+		{
+			public List<IShape> cloneShapes(List<IShape>shapes)
+			{
+				List<IShape> cloneShape= new List<IShape>();
+				foreach(var shape in shapes)
+				{
+					cloneShape.Add(shape.Clone());
+				}
+	
+				return cloneShape;
+			}
+		}
+============================================================================================================================================================
+
+#DeccoratorPattren
+
+This is a structural design pattern used to dynamically add behavior to objects without modifying their original code. It’s a powerful way to offer more flexibility and promote composition over inheritance.
+In summary, a decorator wraps an existing object and adds new functionality either before or after delegating a task to the original object.
+note: this pattern is used when we want to add additional feature but the orginal code is dependent on libarires and complex we use this pattern
+
+using system;
+using system.Threading.Tasks;
+
+// 1.component interface
+
+Public Interface IUserRepository
+{
+	Task<string> GetUserNameByIdAsync(int Id);
+}
+
+// 2.Concrete component(the core codebase logic)
+
+Public classSqlUserRepository:IUserRepository
+{
+	public async Task<string>GetUserNameByIdAsync(int Id)
+	{
+		await Task.Delay(1000);
+		return $"User_{Id}_fromDatabase";
+	}
+}
+
+//3.concrete Decorator (add caching dynamically)
+
+Public class CachedUserRepository:IUserRepository
+{
+   private readonly IUserRepository _InnerRepo;  //wraped Object
+   private readonly IMemoryCache _cache; //image this Microsoft extention caching
+	
+   public CachedUserRepository(IUserRepository _InnerRepo,IMemoryCache _cache)
+   {
+		_InnerRepo=InnerRepo;
+		_cache=cache;
+   }
+ 
+   	public async Task<string> GetUserNameByIdAsync(int Id)
+	{
+	   string cacheKey=$"user-{id}";
+	   //1.check if data exits in cache
+	   if(_cache.TryGetValue(cacaheKey,out string cacaheName))
+	   {
+             retrun $"{cachedName}(Served from Cache)";
+	   }
+
+	   // 2. Fallback to the wrapped inner repository if missing
+           string databaseResult = await _innerRepository.GetUserNameByIdAsync(id);
+
+           // 3. Save to cache for next time
+           _cache.Set(cacheKey, databaseResult);
+
+            return databaseResult;
+	}
+}
+
+#the way to call the class in .Net
+
+var services = new ServiceCollection();
+
+// 1. Register the core implementation
+services.AddScoped<IUserRepository, SqlUserRepository>();
+
+// 2. Use Scrutor to decorate the implementation seamlessly
+// This intercepts requests for IUserRepository and injects CachedUserRepository instead
+services.Decorate<IUserRepository, CachedUserRepository>();
+
+var serviceProvider = services.BuildServiceProvider();
+
+// 3. Resolve the interface
+// The application only knows about IUserRepository, keeping it decoupled!
+var repository = serviceProvider.GetRequiredService<IUserRepository>();
+
+============================================================================================================================================================
+
+
+
+#FacedePattren
+is a structural design pattern that provides a simplified interface to a larger, more complex body of code, such as a class library, a framework, or a complex subsystem.
+
+
+Using System;
+
+// ---- Complex SubSystem 1----
+
+Public class PaymentProcessor
+{
+	public bool ProcessPayment(string account,decimal amount)
+	{
+		Console.WriteLine($"Processing payment of ${amount} for {account}";
+		return true;
+	}
+}
+
+//-----Complex Sub System 2 ----
+
+public class InvetorManger
+{
+	public bool VerifyStock(string itemId)
+	{
+		Console.WriteLine($"Checking stock for item:{itemId}...");
+		return true;
+	}
+
+	public void reserveItem(string itemId)
+	{
+		Console.WriteLine($"Item {itenId} reserved in the Inventory");
+	}
+}
+
+//------Complex Sub System 3 ---------
+
+Public class ShippingService
+{
+	public void ArrangeShipping(string itemId,string address)
+	{
+		Console.WriteLine($"Arranging shipping for the item ${itemId}");
+	}
+}
+
+// The Facede
+
+Public class OrderFacede
+{
+	private readonly PaymentProcessor _paymentProcessor;
+	private readonly InvetorManger  _invetorManger;
+	private readonly ShippingService _shippingService;
+	
+
+	public OrderFacede(PaymentProcessor paymentProcessor,InvetorManger invetorManger,ShippingService shippingService)
+	{
+  		paymentProcessor=_paymentProcessor;
+		InvetorManger   =_invetorManger;
+		ShippingService =_shippingService;
+	}
+
+// Simplified interface for the client
+
+	public bool  PlaceOrder(string itemId,string account,string address,decimal amonunt)
+	{
+		Console.WriteLine("--- Starting Order Placement Process ---");
+ 
+                if (!_inventoryManager.VerifyStock(itemId)) return false;
+                if (!_paymentProcessor.ProcessPayment(account, amount)) return false;
+ 
+                _inventoryManager.ReserveItem(itemId);
+                _shippingService.ArrangeShipping(itemId, address);
+ 
+                Console.WriteLine("--- Order Placed Successfully! ---\n");
+                return true;
+	}
+}
+
+
+//--Client Code ---
+ 
+	
+Class Program
+{
+	static void Main()
+	{
+		//The Client only intracte with Facde
+		OrderFacade orderFacade = new OrderFacade();
+		orderFacade.PlaceOrder("Laptop","user_account_99",1200.00m,"123 Tech Street");
+	}
+}
+
+============================================================================================================================================================
+#Strategy Pattern
+
+
+The Strategy Pattern is a behavioral design pattern that allows you to define a family of algorithms, encapsulate each one, and make them interchangeable. It lets the algorithm vary independently from the clients that use it.
+
+
+// 1.The Strategy Interface
+Public Interface IPaymentStrategy
+{
+	void ProcessPayment(decimal amount);
+}
+
+// 2.The Concrete Strategies
+Public Class CreditCard : IPaymentStrategy
+{
+ 	public void ProcessPayment(decimal amount)
+	{
+		Console.WriteLine($"Paid ${amount} using credit card");
+	}
+}
+
+Public Class PayPal : IPaymentStrategy
+{
+	public void ProcessPayment(decimal amount)
+	{
+		Console.WriteLine($"Paid ${amount} using the PayPal");
+	}
+}
+
+// 3.The Context (The Shopping Cart)
+
+Public Class ShoppingCart
+{
+	private IPaymentStrategy _PaymentStrategy;
+
+	Public ShoppingCart(IPaymentStrategy PaymentStrategy)
+	{
+		_PaymentStrategy = PaymentStrategy;
+	}
+
+	public void CheckOut(decimal amount)
+	{
+		if(_PaymentStrategy == null)
+	
+			throw new InvalidOperationException("Payment strategy not set!");
+	}
+
+		_PaymentStrategy.ProcessPayment(amount);
+}
+
+// 4. Usage
+
+var cart = new ShoppingCart();
+
+//User selects PayPal
+
+ cart.PaymentStrategy(new PayPal());
+ cart.Checkout(100.00m);
+
+
+//User selects CreditCard
+
+ cart.PaymentStrategy(new CreditCard());
+ cart.Checkout(100.00m);
+
+
+============================================================================================================================================================
+//Observer Pattren
+
+The Observer Pattern is a behavioral design pattern that establishes a one-to-many dependency between objects. When the primary object (the Subject or Publisher) changes its state, all its dependent objects (the Observers or Subscribers) are notified and updated automatically
+
+we can do it two ways 1. we can do it classic object oriented Type and 2.using Events and Delegents we can use this pattern
+
+Events and Delegents
+
+
+Using System;
+
+
+// 1.The Subject Publisher
+
+public class CryptoMarket
+{
+	
+	public string Symbool{get;}
+	public decimal _Price;
+
+	//Define the event using built-in event handler
+
+	public event EventHandler<decimal>? PriceChanged;
+
+	public CryptoMarket(string Symbool,deimal intialPrice)
+	{
+		Symbool = symbol;
+		_Price = intialPrice;
+	}
+
+	public void UpdatePrice(decimal newPrice)
+	{
+		if(_price != newPrice)
+		{
+	
+		  _price = newPrice;
+
+		// Trigger the notification to all subscribers
+		  PriceChanged?.Invoke(this, _price);
+		}
+	}
+}
+
+
+//2.Concrete Observers
+
+public class MobileAppView
+{
+	public void onPriceChanged(object? sender, decimal newPrice)	{
+		if(sender is CryptoMarket market)
+		{
+			Console.WriteLine($"[MobileApp] Alert!{market.symbol} changed to ${newPrice}");
+		}
+	}
+}
+
+
+public class LoggingServices
+{
+	public void onPriceChanged(object? sender, decimal newPrice)	{
+		if(sender is CryptoMarket market)
+		{
+			console.WriteLine($"[LogSystem] Alert!{market.symbool changed ${newPrice}");
+		}
+	}
+}
+
+// 3.Execution
+
+Class Program
+{
+	static void Main()
+	{
+	
+		var btcMarket = new CryptoMarket("BTC",6000);
+		var mobileView = new MobileAppView();
+		var log = new 	LoggingServices();
+
+             	// subscribing to the event (Attaching Observers)
+	btcMarket.PriceChanged +=mobileView.onPriceChanged;
+        btcMarket.PriceChanged +=LoggingServices.onPriceChanged;
+
+		//simulate the price change
+
+	btcMarket.UpadtePrice(6200);
+	
+		  // Unsubscribing an observer dynamically
+        btcMarket.PriceChanged -= logger.OnPriceChanged;
+ 
+        btcMarket.UpdatePrice(62000);
+    }
+}
+
+2.using Object Oriented
+
+using System;
+using System.Collections.Generic;
+
+
+namespace ObserverPattrenDemo
+{
+	// 1.The Observer Interface (The Contract)
+	Public interface IInvestor
+	{
+		void update(string stockSymbol, decimal price)
+	}
+
+	// 2. The Subject Interface
+
+	public interface ISctockExchange
+	{
+		void RegisterInvestor(IInvestor investor);
+		void RemoveInvestor(IInvestor investor);
+		void notifyInvestor(IInvestor investor);
+	}
+
+	// 3.The Concrete Subject
+
+	pubic class stockExchange:IStockExchange
+	{
+		private readonly List<IInvestor> _investors = new();
+		private string _stockSymbol;
+		private decimal _price;
+
+		public void RegisterInvestor(IInvestor investor)
+		{
+			if(!_investors.Contains(investor))
+			{
+				_investors.Add(investor);
+			}
+		}
+
+		public void  RemoveInvestor(IInvestor investor)
+		{
+			_investor.Remove(investor);
+		}
+
+		public void notifyInvestor(IInvestor investor)
+		{
+			foreach(var investor in _investor)
+			{
+				investor.Update(_stockSymbol,_price);
+			}
+		}
+
+
+		//Method to simulate the state change
+		public void UpdateStockPrice(string symbol,decimal newPrice)
+		{
+			 _stockSymbol = symbol;
+                        _price = newPrice;
+                         NotifyInvestors(); // Trigger notification automatically
+		}
+	}
+
+// 4.Concrete ObserverA
+	
+	public class MobileAppSubscriber : IInvestor
+	{
+		public void Update(string stockSymbol, decimal price)
+		{
+			Console.WriteLine($"[Mobile App] Alert!{stockSymbol} is now ${price}");
+		}
+	}
+  // 5. Concrete Observer B
+       public class SmsAlertSubscriber : IInvestor
+       {
+       		 public void Update(string stockSymbol, decimal price)
+      		  {
+          		  Console.WriteLine($"[SMS System] Sending text: {stockSymbol} changed to ${price}");
+        	  }
+        }
+}
+
+============================================================================================================================================================
+//State Pattren
+
+
+State Pattren :I use the State Pattern when an object's behavior changes dynamically based on its internal status, and using traditional if/else or switch blocks would make the code unmaintainable and violate the Open/Closed Principle. Instead of keeping all state logic in one massive class, I encapsulate each state's unique behavior into its own dedicated class. The main object (the Context) simply delegates work to the current state object
+
+Step 1 : Define the state Interface
+
+public Interface IDocumentState
+{
+	void Edit(DocumnetContext context,string content);
+	void SubmitForReview(DocumentContext context);
+	void Approve(DocumentContext context);
+	void Reject(DocumentContext context);
+}
+
+step 2 : Implement Concrete States
+
+each class handles the bussines rules only for its specific state
+
+
+//Draft State
+
+public class DraftState  : IDocumentState
+{
+	public void Edit(DocumnetContext context,string content)
+	{
+		context.content  = content;
+		Console.WriteLine("Document updated successfully");
+	}
+
+	public void SubmitForReview(DocumentContext context)
+	{
+		context.TrastionTo(new PendingReviewState());
+		Console.WriteLine("Documnet submitted Now pending review");
+	}
+
+	public void Approve(DocumnetContext context) => Console.WriteLine("Error: Cannot approve a draft. Submit it first.");
+
+	public void Reject(DocumnetContext context) =>Console.WriteLine("Error:Cannot reject a draft");
+
+}
+
+
+// 2. Pending review state
+
+public class PendingReviewState : IDocumentState
+{
+
+	public void Edit(DocumnetContext context,string content) => Console.WriteLine("Error: Cannot edit while under review");
+
+	public  void SubmitForReview(DocumnetContext context) => Console.WriteLine("Error : Already under review");
+
+	public void Approve(DocumnetContext context)
+	{
+		context.TransitionTo(new ApprovedState());
+		Console.WriteLine("Documnet Approve and locked");
+	}
+
+	public void Reject(DocumentContext context)
+	{
+		context.TransitionTo(new DraftState());
+		Console.WriteLine("Documnet rejected Sent back to Draft status");
+	}
+}
+
+//3. Approved State(Finale state)
+
+public class ApprovedState:IDocumnetState
+{
+	public void Edit(DocumentContext context, string content) => Console.WriteLine("Error: Locked. Cannot edit an approved document.");
+        public void SubmitForReview(DocumentContext context) => Console.WriteLine("Error: Already approved.");
+        public void Approve(DocumentContext context) => Console.WriteLine("Error: Already approved.");
+        public void Reject(DocumentContext context) => Console.WriteLine("Error: Cannot reject an already approved document.");
+}
+
+// step 3: create the context class
+
+publc class DocumnetContext
+{
+	private IDocumentState _currentState;
+
+	//public properties representing the entity data
+
+	public string Content {get; set;}
+
+	public DocumentContext(IDocumentState intialState)
+	{
+		TransitionTo(initialState);
+	}
+
+	//Method to allow states to trigger transitions
+
+	public void TransitionTo(IDocumentState state)
+	{
+		_currentState = state;
+	}
+
+	//context delegates operations to the current state
+
+	public void Edit(string content)     => _currentState.Edit(this, content);
+	public void SubmitForReview()        => _currentState.SubmitForReview(this);
+        public void Approve()            => _currentState.Approve(this);
+        public void Reject()             => _currentState.Reject(this);
+}
+	
