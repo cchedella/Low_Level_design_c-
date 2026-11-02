@@ -1,0 +1,9 @@
+basically factory pattren is used for object cretion 
+Mainly 4 Setps 
+    1. Interface
+    2. concrete class
+    3. creating Factory class with method with return type is interface
+    4. calling the method of factory class
+ by using the factory pattern, we can create objects without exposing the creation logic to the client and refer to the newly created object using a common interface. This promotes loose coupling and enhances code maintainability.
+ this pattren helps to implement the Open/Closed Principle, which states that software entities should be open for extension but closed for modification. By using a factory pattern, we can add new types of transport without modifying the existing code, thus adhering to this principle.
+ and we can implement dependency inversion principle, which states that high-level modules should not depend on low-level modules, but both should depend on abstractions. By using a factory pattern, we can create objects based on abstractions (interfaces) rather than concrete implementations, thus promoting flexibility and scalability in our codebase.   
