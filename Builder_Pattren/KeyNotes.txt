@@ -1,0 +1,15 @@
+The builder design pattren is a creational pattren is used to contrut complex objects step-b-step
+It seprates the representation of the object from its constuction logic. allowing the same construction process to create different representations
+
+
+1. Single Responsibility Principle (SRP)
+
+• What it means: A class should have only one reason to change.
+• How Builder achieves it: In a standard implementation, a complex class has to handle both its core business logic and the intricate logic of how to construct itself (handling multiple constructors, optional parameters, or validation). The Builder pattern extracts the instantiation and assembly logic into a dedicated Builder class (and optionally a Director class). This ensures the target class focuses solely on its primary business responsibility.
+
+2. Open/Closed Principle (OCP)
+
+• What it means: Software entities should be open for extension but closed for modification.
+• How Builder achieves it: If you need to create a new variation of a complex object, you do not need to modify the existing target class or its existing builders. Instead, you can create a new concrete builder class that implements the same builder interface. The existing client or Director code can use this new builder seamlessly without changing its own source code.
+
+
