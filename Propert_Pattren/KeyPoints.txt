@@ -1,0 +1,20 @@
+PropertPattren : 
+This Design pattren is used to create new objects b copig an existing instance instead of creating them from the strach.
+This Pattren is highly benficial when object creation is highl expensive(e.g: requires heav database quries or complex configuration ) or when you want to avoid massive hierarchypf factory subclasses
+
+
+1. Single Responsibility Principle (SRP)
+
+How to use it: Instead of forcing a data class to contain the business logic for every single context it is used in, you can keep the class strictly about the data. Property patterns allow you to move context-specific behavior into separate mapping, validation, or processing classes.
+
+
+2. Open/Closed Principle (OCP)
+
+How to use it: The Open/Closed Principle states that software entities should be open for extension but closed for modification. Property patterns, when combined with pattern matching switches, allow you to add new behaviors or business rules without modifying the underlying data models.
+
+
+3. Liskov Substitution Principle (LSP)
+
+How to use it: LSP states that objects of a superclass should be replaceable with objects of its subclasses without breaking the application. Property patterns help you honor LSP by making polymorphism less fragile.
+
+
