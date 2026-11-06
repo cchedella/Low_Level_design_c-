@@ -1,0 +1,13 @@
+DeccoratorPattren:
+
+This is a structural design pattern used to dynamically add behavior to objects without modifying their original code. It’s a powerful way to offer more flexibility and promote composition over inheritance.
+In summary, a decorator wraps an existing object and adds new functionality either before or after delegating a task to the original object.
+note: this pattern is used when we want to add additional feature but the orginal code is dependent on libarires and complex we use this pattern
+
+How the Decorator Pattern supports SOLID principles:
+- Open/Closed Principle (OCP): Add behavior through new decorator classes without changing the existing component or its code.
+- Single Responsibility Principle (SRP): Keep each decorator focused on one additional behavior, making features easier to maintain and combine.
+- Dependency Inversion Principle (DIP): Have both the component and decorators depend on a shared abstraction, rather than on specific implementations.
+- Liskov Substitution Principle (LSP): A decorator should preserve the component's contract so it can be used wherever the wrapped component is expected.
+
+The pattern most directly supports OCP and SRP. It can also support DIP and LSP when decorators follow a shared interface and preserve its behavior. It does not inherently implement the Interface Segregation Principle (ISP).
