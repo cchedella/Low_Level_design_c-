@@ -1,0 +1,13 @@
+Faced Pattren
+ it is a strucral desin pattren that provides a simplefide interface to a large, more complex
+ body of code ,such a class library, a framework or a complex subsystem.
+
+
+1. Single Responsibility Principle (SRP)
+
+• How it helps: A façade class provides a single, unified, and simplified interface to a complex set of underlying subsystem classes. By encapsulating coordination logic into the façade, 
+the client code does not need to know or manage the multiple subsystem components, giving the façade a clear, focused responsibility: coordinating interaction with that subsystem.
+
+2. Dependency Inversion Principle (DIP) (Indirectly / Partially)
+
+• How it helps: High-level client modules depend on the simplified interface of the façade rather than directly coupling themselves to a tangled web of low-level subsystem classes
