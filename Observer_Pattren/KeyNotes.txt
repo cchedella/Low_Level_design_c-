@@ -1,0 +1,5 @@
+• Single Responsibility Principle (SRP): The subject manages its state and subscriber list, while each observer handles only its own reaction to updates. Neither needs to know how the other works internally.
+• Open/Closed Principle (OCP): You can add new observer types without modifying existing subject code. As discussed on Stack Overflow, users generally agree that adding observers extends behavior cleanly without altering the observed object.
+• Liskov Substitution Principle (LSP): Any observer implementation can be attached or swapped in without breaking the subject, as long as it honors the observer contract.
+• Interface Segregation Principle (ISP): Observers typically implement a minimal notification interface (such as an update() method) rather than depending on unrelated subject or subscription methods.
+• Dependency Inversion Principle (DIP): High-level subjects depend on an observer abstraction rather than concrete observer classes, allowing flexible runtime wiring.
