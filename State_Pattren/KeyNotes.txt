@@ -1,0 +1,4 @@
+State Pattren
+
+
+State Pattren :I use the State Pattern when an object's behavior changes dynamically based on its internal status, and using traditional if/else or switch blocks would make the code unmaintainable and violate the Open/Closed Principle. Instead of keeping all state logic in one massive class, I encapsulate each state's unique behavior into its own dedicated class. The main object (the Context) simply delegates work to the current state object

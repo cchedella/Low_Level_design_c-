@@ -1,0 +1,9 @@
+The Adapter Pattern acts as a structural bridge that allows two incompatible interfaces to work together without modifying their existing source code.
+
+Adapter Pattern directly reinforces four of the five SOLID principles:
+
+SOLID Principle	How Adapter Supports It
+S — Single Responsibility Principle	Separates data translation logic (converting decimal to int paise, mapping error codes) from your core business logic. Your checkout service only processes orders, while the adapter handles SDK translation.
+O — Open/Closed Principle	You can introduce new third-party payment gateways (Stripe, PhonePe, PayPal) into your application without modifying a single line of your existing checkout or SplitPaymentStrategy code.
+L — Liskov Substitution Principle	Because RazorpayAdapter implements IPaymentStrategy, it can be substituted anywhere an IPaymentStrategy is expected (including inside your SplitPaymentStrategy list) without breaking the system.
+D — Dependency Inversion Principle	Your high-level checkout module depends on the IPaymentStrategy abstraction rather than depending directly on concrete, low-level third-party SDK classes (RazorpaySdk).
