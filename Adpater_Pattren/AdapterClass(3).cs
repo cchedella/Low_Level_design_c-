@@ -18,4 +18,6 @@ public class RazorAdapter:IpaymentStragey
 
         return !string.IsNullOrEmpty(transactionId); 
     }
+
+    
 }
